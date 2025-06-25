@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tasks App</title>
+</head>
+<body>
+  <h1>Tasks</h1>
+  <ul id="task-list"></ul>
+  <input id="new-task" placeholder="New task">
+  <button onclick="addTask()">Add</button>
+
+  <script>
+    // Try to use BACKEND_PORT from global var or fallback to 5000
+    const port = window.BACKEND_PORT || 5000;
+    const backendUrl = `http://backend:${port}`;
+
+    function fetchTasks() {
+      fetch(`${backendUrl}/tasks`)
+        .then(res => res.json())
+        .then(tasks => {
+          const list = document.getElementById("task-list");
+          list.innerHTML = "";
+          tasks.forEach(task => {
+            const item = document.createElement("li");
+            item.textContent = task.text + (task.done ? " ✅" : "");
+            item.onclick = () => markDone(task.id);
+            const del = document.createElement("button");
+            del.textContent = "❌";
+            del.onclick = e => {
+              e.stopPropagation();
+              deleteTask(task.id);
+            };
+            item.appendChild(del);
+            list.appendChild(item);
+          });
+        });
+    }
+
+    function addTask() {
+      const input = document.getElementById("new-task");
+      fetch(`${backendUrl}/tasks`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: input.value })
+      }).then(() => {
+        input.value = "";
+        fetchTasks();
+      });
+    }
+
+    function markDone(id) {
+      fetch(`${backendUrl}/tasks/${id}/complete`, { method: "PATCH" })
+        .then(fetchTasks);
+    }
+
+    function deleteTask(id) {
+      fetch(`${backendUrl}/tasks/${id}`, { method: "DELETE" })
+        .then(fetchTasks);
+    }
+
+    fetchTasks();
+  </script>
+</body>
+</html>
