@@ -1,4 +1,6 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+
 import psycopg2
 import os
 import sys
@@ -10,6 +12,7 @@ logger = logging.getLogger(__name__)
 
 # ── Flask app ──────────────────────────────
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # ── Database connection ──────────────────────────────
 logger.info("Connecting to DB with:")

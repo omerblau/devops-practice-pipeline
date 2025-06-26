@@ -1,0 +1,31 @@
+# ─── Python byte-code ─────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# ─── Local virtual-envs ──────────────────────────────
+venv/
+.venv/
+
+# ─── Packaging artefacts ─────────────────────────────
+*.egg-info/
+dist/
+build/
+
+# ─── Source-control & editor cruft ───────────────────
+.git
+.gitignore
+*.log
+.DS_Store
+.idea/
+.vscode/
+
+# ─── Anything else you know isn’t needed inside image
+# Keep only index.html (and any css/js/img you add)
+*.log
+.git
+.gitignore
+.DS_Store
+.idea/
+.vscode/
