@@ -1,21 +1,20 @@
 name: Build & Publish Docker Images
 
-on: 
+on:
   push:
     branches:
       - main
-      
 
 jobs:
-  docker:   # this is a job identifier - jsut a name
+  docker:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/chekout@v3
-      
-      - name: Log in to dockerhub
+        uses: actions/checkout@v3   # fixed typo here
+
+      - name: Log in to Docker Hub
         uses: docker/login-action@v2
-        with: 
+        with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
@@ -28,4 +27,11 @@ jobs:
             omerblau/my-backend:latest
             omerblau/my-backend:${{ github.sha }}
 
-            
+      - name: Build & push frontend image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            omerblau/my-frontend:latest
+            omerblau/my-frontend:${{ github.sha }}

@@ -1,6 +1,7 @@
 version: "3"
 services:
   backend:
+    image: omerblau/my-backend:latest
     environment:
       DB_HOST: db
       DB_NAME: tasks_db
@@ -13,6 +14,7 @@ services:
         condition: service_healthy
 
   frontend:
+    image: omerblau/my-frontend:latest
     ports:
       - "8080:80"
     depends_on:

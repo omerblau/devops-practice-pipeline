@@ -3,9 +3,9 @@ services:
   backend:
     build:
       context: ./backend
-    image: YOURHUBUSER/my-backend:dev
+    image: omerblau/my-backend:dev
 
   frontend:
     build:
       context: ./frontend
-    image: YOURHUBUSER/my-frontend:dev
+    image: omerblau/my-frontend:dev
