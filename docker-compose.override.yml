@@ -1,0 +1,11 @@
+version: "3"
+services:
+  backend:
+    build:
+      context: ./backend
+    image: omerblau/my-backend:dev
+
+  frontend:
+    build:
+      context: ./frontend
+    image: omerblau/my-frontend:dev
