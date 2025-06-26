@@ -1,0 +1,11 @@
+version: "3"
+services:
+  backend:
+    build:
+      context: ./backend
+    image: YOURHUBUSER/my-backend:dev
+
+  frontend:
+    build:
+      context: ./frontend
+    image: YOURHUBUSER/my-frontend:dev

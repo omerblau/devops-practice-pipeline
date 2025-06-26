@@ -1,0 +1,7 @@
+version: "3"
+services:
+  backend:
+    image: YOURHUBUSER/my-backend:1.0
+
+  frontend:
+    image: YOURHUBUSER/my-frontend:1.0
