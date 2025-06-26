@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Task App</title>
+    </head>
+    <body>
+        <h1>Task List</h1>
+        <input type="text" id="taskInput" placeholder="Enter task" />
+        <button onclick="addTask()">Add</button>
+        <ul id="taskList"></ul>
+
+        <script>
+            const BACKEND_URL = "http://localhost:5000";
+
+            async function loadTasks() {
+                const res = await fetch(`${BACKEND_URL}/tasks`);
+                const tasks = await res.json();
+                const list = document.getElementById("taskList");
+                list.innerHTML = "";
+                for (const t of tasks) {
+                    const li = document.createElement("li");
+                    li.innerHTML = `${t.text} ${t.done ? "✔" : ""}
+          <button onclick="completeTask(${t.id})">Complete</button>
+          <button onclick="deleteTask(${t.id})">Delete</button>`;
+                    list.appendChild(li);
+                }
+            }
+
+            async function addTask() {
+                const text = document.getElementById("taskInput").value;
+                if (!text) return;
+                await fetch(`${BACKEND_URL}/tasks`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ text }),
+                });
+                document.getElementById("taskInput").value = "";
+                loadTasks();
+            }
+
+            async function completeTask(id) {
+                await fetch(`${BACKEND_URL}/tasks/${id}/complete`, {
+                    method: "PATCH",
+                });
+                loadTasks();
+            }
+
+            async function deleteTask(id) {
+                await fetch(`${BACKEND_URL}/tasks/${id}`, { method: "DELETE" });
+                loadTasks();
+            }
+
+            loadTasks();
+        </script>
+    </body>
+</html>
